@@ -1,0 +1,18 @@
+# Generated Python files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Private datasets, experiments, model weights, local runs
+runtime_runs/
+data/
+results/
+*.joblib
+*.mp4
+*.zip
+*.env
+.env*
+
+# Generated local integration patches
+*_patch_review/
+generated_patches/
