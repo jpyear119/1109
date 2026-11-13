@@ -1,0 +1,8 @@
+{
+  "schema_version": "m1_hgks_v2_cached_config_v1",
+  "hgks_root": "C:\\Project08\\1020",
+  "python_executable": "C:\\Project08\\HKS_OBJECT_BOUNDARY_EXPERIMENT_20261022\\venv_lite\\Scripts\\python.exe",
+  "input_bundle": "C:\\Project08\\1020\\data\\canonical\\portable\\DEV23.json.gz",
+  "expected_split": "DEV",
+  "expected_videos": 23
+}

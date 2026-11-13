@@ -1,0 +1,16 @@
+{
+  "schema_version": "m1_hgks_frame_sources_v1",
+  "videos": {
+    "REPLACE_WITH_ACTUAL_VIDEO_ID": {
+      "mode": "indexed_jpegs",
+      "timebase": "hgks_selection_seconds",
+      "frames": [
+        {
+          "timestamp_s": 12.25,
+          "path": "C:\\Project08\\example\\frame_001.jpg",
+          "sha256": "REPLACE_WITH_REAL_JPEG_SHA256"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "title": "XPZHU × HGKS V2 cached-to-task-BT code validation",
+  "date": "2026-11-13",
+  "repo_heads_read": {
+    "jpyear119/xpzhu": "9c90fb98aa18ea9411c5f42ab3ff1f625ab51594",
+    "jpyear119/hgks-v2-1101": "d8c48df2b1efc87d1fcdf03487d26a9a32c99523"
+  },
+  "python_syntax": "compileall passed for V2 source after changes",
+  "isolated_unit_tests": {
+    "result": "PASS",
+    "count": 19,
+    "caveat": "Ran through isolated compatibility harness for XPZHU; full native private repo regressions not run."
+  },
+  "git_patch_generator": {
+    "result": "PASS_SYNTHETIC_REPOS",
+    "separate_CRLF_check": "PASS",
+    "github_anchors": "All planned anchors inspected against private HEAD files; HGKS job.py CRLF verified. Native checkout patch not yet applied."
+  },
+  "jpeg_ffmpeg": {
+    "result": "PASS_SYNTHETIC_VIDEO",
+    "request_seconds": 1.25,
+    "decoded_seconds": 1.3
+  },
+  "real_experiment_reuse": {
+    "source": "user supplied P05_930_1090_D_hgks_k32_704.zip",
+    "task_ir_actions": 27,
+    "review_targets": 37,
+    "bt_draft_xml_generated": true,
+    "human_review_performed": false,
+    "paid_model_call_performed": false,
+    "runtime_execution_performed": false,
+    "second_pass": "PASS 27 Actions, 37 review targets, unchanged P05 source; prompt/SOP hashes passed after newline normalization"
+  },
+  "not_verified": [
+    "local Windows HGKS locked runtime/model inference",
+    "all XPZHU regressions and native checkout patch application",
+    "PC refurbishment data and SOP integration",
+    "Claude paid inference using PC_D prompt",
+    "M6B node registration in BehaviorTree.CPP runtime",
+    "Theme B AO-OP interface and robot execution",
+    "Native PC_D paid job and model validation in actual HGKS1101 Python environment",
+    "Pillow availability under users XPZHU Python3.9",
+    "Real PC preprocessed pool schema for novel videos"
+  ],
+  "version": "V2 code review and corrections",
+  "security_and_contract_changes": [
+    "JPEG full decode via Pillow",
+    "M1 indexed JPEG unique matching",
+    "segment filtering and one-video image mapping",
+    "PC_D prohibits Parallel (D research unchanged)",
+    "Job prompt/SOP/schema/manifest content hashes",
+    "CRLF-compatible installation patch",
+    "formal HGKS fixed budget output check"
+  ]
+}

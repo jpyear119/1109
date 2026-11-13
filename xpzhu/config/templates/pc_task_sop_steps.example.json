@@ -1,0 +1,13 @@
+{
+  "schema_version": "pc_task_sop_steps_v1",
+  "video_id": "REPLACE_WITH_PC_VIDEO_ID",
+  "steps": [
+    {
+      "step_id": "S01",
+      "start_s": 0.0,
+      "end_s": 20.0,
+      "text": "Inspect the exterior condition of the device",
+      "time_source": "video_annotation"
+    }
+  ]
+}

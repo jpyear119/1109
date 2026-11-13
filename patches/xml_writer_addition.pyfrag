@@ -1,0 +1,38 @@
+
+
+def synthesize_task_draft_xml(task_ir: Dict[str, Any], action_registry: Dict[str, Any],
+                              condition_registry: Dict[str, Any]) -> str:
+    """输入：经过引用校验的Task IR树；输出：BehaviorTree.CPP v4候选XML。
+
+    唯一的M6B XML编译位置，不自行预测动作、不增删控制节点。
+    Action/Condition使用通用候选ID，必须人工审查且不能直接执行。
+    此函数只负责确定性序列化；Job来源校验在task_draft.py完成。
+    """
+    if task_ir.get('schema_version') != 'route_b_task_draft_ir_v1':
+        raise ContractError('Unknown task draft IR schema')
+    action_models = registry_map(action_registry)
+    condition_models = registry_map(condition_registry)
+    action = action_models['route_b_draft_action_v1']['bt_node_id']
+    condition = condition_models['route_b_draft_condition_v1']['bt_node_id']
+    root = ET.Element('root', {'BTCPP_format': '4', 'main_tree_to_execute': 'MainTree'})
+    tree = ET.SubElement(root, 'BehaviorTree', {'ID': 'MainTree'})
+
+    def add(parent: ET.Element, node: Dict[str, Any], path: str, depth: int) -> None:
+        if depth > 80:
+            raise ContractError('Task proposal exceeds maximum XML depth')
+        kind = node['type']
+        if kind == 'Action':
+            ET.SubElement(parent, 'Action', {'ID': action, 'event_ref': node['event_ref']})
+        elif kind == 'Condition':
+            ET.SubElement(parent, 'Condition', {'ID': condition,
+                                                'condition_ref': node['condition_ref']})
+        elif kind in {'Sequence', 'Fallback'}:
+            branch = ET.SubElement(parent, kind, {'name': 'draft_' + path})
+            for index, child in enumerate(node['children']):
+                add(branch, child, path + '_' + str(index), depth + 1)
+        else:
+            raise ContractError('Unsupported draft BT node: ' + str(kind))
+
+    add(tree, task_ir['tree'], 'root', 0)
+    _indent(root)
+    return ET.tostring(root, encoding='unicode', short_empty_elements=True) + '\n'

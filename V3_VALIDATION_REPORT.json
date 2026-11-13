@@ -1,0 +1,22 @@
+{
+  "version": "V3 inline-source explanation and segment naming fix",
+  "date": "2026-11-13",
+  "changes": [
+    "Chinese module and function docstrings at genuine data-flow entry points",
+    "Commented unchanged HGKS M1 -> JPEG -> Claude job -> M6B candidate boundaries",
+    "Segment artifacts named by unique job_id, without overwriting same-video earlier segment"
+  ],
+  "checks_ran": {
+    "python_compileall": "PASS",
+    "isolated_xpzhu_integration_tests": "PASS 19/19",
+    "synthetic_git_patch_apply": "PASS xpzhu + hgks-v2-1101",
+    "real_P05_offline_task_xml": "PASS 27 actions, 37 review targets, no review approval"
+  },
+  "not_run": [
+    "XPZHU complete native checkout tests",
+    "Locked HGKS inference on the user Windows machine",
+    "PC_D real paid Claude call",
+    "Theme B runtime or robot execution"
+  ],
+  "note": "Comments describe the tested and implemented path; they do not imply unsupported functionality is complete."
+}
