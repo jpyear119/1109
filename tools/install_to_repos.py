@@ -316,7 +316,10 @@ def main() -> None:
     for name, root in roots.items():
         patch = make_patch(name, root)
         path = output / (name + ".patch")
-        path.write_text(patch, encoding="utf-8")
+        # Windows text mode converts every LF to CRLF; if a patch hunk already
+        # contains CRLF from a checked-out file, that produces CRCRLF and makes
+        # git apply fail even when HEAD and worktree match. Preserve bytes.
+        path.write_bytes(patch.encode("utf-8"))
         subprocess.run(["git", "-C", str(root), "apply", "--check", str(path)],
                        check=True)
         patches[name] = path
