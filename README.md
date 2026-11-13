@@ -1,5 +1,31 @@
 # 1109 · XPZHU × HGKS V2 集成发布候选（2026-11-13）
 
+## 当前Windows本地安装（2026-11-13，优先按本节操作）
+
+已经确认的本地路径：集成包 `C:\Project08\11\1109_bundle`，正式XPZHU
+`C:\Project08\11\1109_xpzhu`，HGKS开发仓库 `C:\Project08\1101`。
+请不要再把 `C:\Project08\11\1109` 当成正式XPZHU checkout。
+
+```powershell
+$BUNDLE = 'C:\Project08\11\1109_bundle'
+$XPZHU = 'C:\Project08\11\1109_xpzhu'
+$HGKS = 'C:\Project08\1101'
+$PATCH = 'C:\Project08\11\1109_patch_review'
+$PYTHON = Join-Path $env:LOCALAPPDATA 'Programs\Python\Python312\python.exe'
+
+git -C $BUNDLE pull --ff-only origin main
+& $PYTHON "$BUNDLE\tools\install_to_repos.py" --xpzhu-root $XPZHU --hgks-root $HGKS --patch-output $PATCH
+# 预期：PATCHES_VALIDATED ... READ_ONLY_PREVIEW
+# 看过补丁、确认两个仓库已跟踪文件无未提交改动后，再执行：
+& $PYTHON "$BUNDLE\tools\install_to_repos.py" --xpzhu-root $XPZHU --hgks-root $HGKS --patch-output $PATCH --apply
+# 预期：PATCHES_VALIDATED ... APPLIED
+```
+
+安装器允许保留 `.dsh-probe/`、`adb-grant.ps1` 等与目标路径不冲突的**未跟踪**文件。
+它仍拒绝已有源码中的暂存/未暂存改动；生成补丁前还会检查新增文件
+是否已存在，随后用 `git apply --check` 做最终校验。不要删除这些未跟踪文件。
+
+
 > **本文件夹是XPZHU/HGKS源码的增量集成包，不是完整独立运行的XPZHU仓库。**
 > 如果 `C:\Project08\11\1109` 已经是XPZHU源码checkout，可以在独立下载目录解压本包，然后使用 `tools/install_to_repos.py` 生成补丁并应用到1109。
 > 如果1109只是一个新建空目录，必须先有XPZHU正式源码；不能将本增量包直接当成完整XPZHU运行。

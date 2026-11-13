@@ -2,7 +2,8 @@
 
 它不是视频处理或算法入口；现场讲算法请打开 xpzhu/tools/hgks_task_flow.py。
 默认只生成补丁并运行git apply --check，不修改任何源码。
-显式--apply时先验证两个仓库和补丁，工作树不干净则拒绝应用。
+显式--apply时先验证两个仓库和补丁；已跟踪文件存在改动则拒绝，
+但不相关的未跟踪文件可以保留。
 保留现有CRLF/LF换行，以免Git补丁在Windows出现不必要的整文件差异。
 """
 # 本地安装PowerShell示例（默认只生成并检查补丁，不修改仓库）：
@@ -13,7 +14,7 @@
 #    python "$BUNDLE\tools\install_to_repos.py" --xpzhu-root $XPZHU --hgks-root $HGKS --patch-output $PATCH
 #    Get-Content "$PATCH\xpzhu.patch" -TotalCount 50
 #    Get-Content "$PATCH\hgks-v2-1101.patch" -TotalCount 50
-# 仅当两个仓库HEAD符合预期且无未提交改动，审阅补丁后才显式加 --apply。
+# 仅当两个仓库HEAD符合预期且已跟踪文件无未提交改动，审阅后才显式加 --apply。
 # 若HEAD不同，不能盲目使用--allow-different-head：先确认仓库已有的改动。
 # 这是安装工具，不是算法执行入口。算法执行请看XPZHU/tools/hgks_task_flow.py。
 
@@ -306,8 +307,11 @@ def main() -> None:
         actual = git(root, "rev-parse", "HEAD")
         if actual != EXPECTED[name] and not args.allow_different_head:
             raise ValueError("unreviewed_git_head:%s:%s" % (name, actual))
-        if args.apply and git(root, "status", "--porcelain"):
-            raise ValueError("uncommitted_changes_refuse_to_apply:%s" % name)
+        # Only tracked changes threaten the exact-source patch. Untracked
+        # diagnostic files may remain: make_patch() rejects new-file collisions,
+        # and git apply --check verifies every patch before anything is changed.
+        if args.apply and git(root, "status", "--porcelain", "--untracked-files=no"):
+            raise ValueError("uncommitted_tracked_changes_refuse_to_apply:%s" % name)
     output = args.patch_output.resolve()
     if any(output == root or root in output.parents for root in roots.values()):
         raise ValueError("patch_output_must_be_outside_both_repositories")
